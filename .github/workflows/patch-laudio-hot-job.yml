@@ -1,0 +1,41 @@
+name: Patch Laudio HOT job
+
+on:
+  push:
+    paths:
+      - '.github/workflows/patch-laudio-hot-job.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add Laudio role to dashboard
+        shell: python
+        run: |
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text()
+          key = 'laudio-healthcare-workforce'
+          if key in s:
+              print('Role already present; no change needed.')
+              raise SystemExit(0)
+          row = "['HOT',96,'Ascend Learning / Laudio','VP Marketing, Healthcare Workforce Solutions','Not disclosed (secondary estimates ~$150K–$200K)','Remote U.S. • Full-time • Eastern/Central hours','Healthcare Marketing / Growth + Marketing / Growth Executive + Content / Brand / Communications','Executive','Exceptional match across health-system marketing, healthcare SaaS, C-suite audiences, GTM, thought leadership, demand generation, brand strategy, market intelligence, ABM, partnerships and pipeline. Current enterprise health-system work plus prior VP healthcare-tech strategy and full-stack marketing leadership map unusually closely.','Healthcare SaaS, health systems, healthcare workforce, demand generation, pipeline, ABM, full-stack marketing, brand strategy, product marketing, thought leadership, C-suite healthcare, market research, competitive intelligence, customer community, referral strategy, partnerships, analytics','Main recruiter risks are less explicit ownership of a scaled SaaS demand-generation engine, multi-brand post-acquisition integration and a major private customer conference. Offsets are strong: current health-system pipeline and C-suite work, healthcare-tech VP strategy, multi-entity GTM, brand leadership, CRM modernization, content, digital and executive communications.','laudio-healthcare-workforce','https://ascendlearning.jobs.hr.cloud.sap/job/Burlington-VP-Marketing%2C-Healthcare-Workforce-Solutions-MA-01803/1392539100/'],\n"
+          s = s.replace('const J=[\n', 'const J=[\n' + row, 1)
+          s = s.replace('🔥 NEW HOT JOB: Eli Lilly — Senior Director, LillyDirect Marketing Strategy & Growth Acceleration', '🔥 NEW HOT JOB: Ascend Learning / Laudio — VP Marketing, Healthcare Workforce Solutions', 1)
+          s = s.replace('Updated September 10, 2026.', 'Updated September 11, 2026.', 1)
+          p.write_text(s)
+      - name: Commit dashboard update
+        run: |
+          if git diff --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Add Ascend Learning Laudio VP Marketing HOT role"
+          git push
