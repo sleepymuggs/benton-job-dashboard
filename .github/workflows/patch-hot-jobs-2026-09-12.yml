@@ -1,0 +1,43 @@
+name: Patch Sep 12 HOT jobs
+
+on:
+  push:
+    paths:
+      - '.github/workflows/patch-hot-jobs-2026-09-12.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch dashboard
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          p = Path('index.html')
+          s = p.read_text()
+          rows = [
+              "['HOT',88,'Sidecar Health','VP of Marketing','Not disclosed by employer','Remote U.S. • Full-time','Healthcare Marketing / Growth + Marketing / Growth Executive','Executive','Strong healthcare B2B leadership fit across brand, content, demand generation, AI-enabled marketing, team building, sales alignment and executive stakeholder management. Your current enterprise healthcare growth work, prior healthcare-tech VP strategy, $3.9M budget ownership, CRM/pipeline stewardship and long digital/content leadership history create a credible VP story.','Healthcare marketing, B2B demand generation, ABM, employer health, broker marketing, content strategy, paid media, pipeline, AI marketing, HubSpot, Salesforce, SDR alignment, website optimization, executive leadership','Main recruiter risk is Sidecar’s requirement for deep scaled ABM and demand-generation ownership, including multimillion-dollar paid media and modern intent/orchestration platforms. Your multimillion-dollar budget ownership, healthcare growth role, CRM/pipeline work, digital leadership and builder experience offset part of that gap.','sidecar-health-vp','https://job-boards.greenhouse.io/sidecarhealth/jobs/6006042004'],",
+              "['HOT',86,'CrossnoKaye','Director of Marketing','$200,000–$215,000 base • ~$226,000–$243,000 total cash','Remote U.S. • Full-time • ~35% travel','Manufacturing / Industrial / AEC + Marketing / Growth Executive','Director','High-upside industrial fit combining heavy-industry marketing, brand building, demand generation, product launches, sales enablement, events, AI/technical storytelling and Salesforce/HubSpot. Your manufacturing/building-materials background, construction-equipment agency work, brand relaunch experience, enterprise digital systems and current pipeline/AI work give you a credible cross-sector story.','Industrial marketing, heavy industry, industrial software, demand generation, ABM, product marketing, analyst relations, Salesforce, HubSpot, sales enablement, events, pipeline attribution, AI, category creation','The hard gaps are direct industrial-automation/software-defined-controls experience, formal ARC/LNS/IDC analyst relations and ownership of an industrial-software marketing-sourced pipeline. Those gaps keep this below 90%, but the remote setup, $200K+ base and unusually strong heavy-industry adjacency make it a HOT exception.','crossnokaye-director','https://job-boards.greenhouse.io/crossnokaye/jobs/6163038004'],"
+          ]
+          needle = "const J=[\n"
+          for row in reversed(rows):
+              company = row.split("','")[2]
+              if company not in s:
+                  s = s.replace(needle, needle + row + "\n", 1)
+          s = re.sub(r'<div class="alert">.*?</div>', '<div class="alert">🔥 NEW HOT JOBS: Sidecar Health — VP Marketing • CrossnoKaye — Director of Marketing</div>', s, count=1)
+          s = s.replace('Updated September 11, 2026.', 'Updated September 12, 2026.')
+          p.write_text(s)
+      - name: Commit dashboard update
+        run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name "job-watch-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add index.html
+          git commit -m "Add Sep 12 HOT job matches"
+          git push
