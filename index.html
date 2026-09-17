@@ -89,7 +89,7 @@ const J=[
 ['HOT',96,'Redwood Materials','Director of Marketing','$192,500–$252,500','Remote U.S. • Full-time','Manufacturing / Industrial / AEC + Content / Brand / Communications','Director','Exceptional fit across advanced manufacturing, industrial B2B, GTM strategy, technical storytelling and executive content.','B2B product marketing, advanced manufacturing, industrial technology, GTM strategy, positioning, technical storytelling, business development','Formal B2B product-marketing title depth and clean-energy experience are lighter; manufacturing leadership and technical-market experience are strong offsets.','redwood','https://job-boards.greenhouse.io/redwoodmaterials/jobs/6139220004'],
 ['HOT',95,'Personify Health','Vice President, Integrated Marketing','$220,000–$250,000','Remote U.S. • Full-time','Healthcare Marketing / Growth + Marketing / Growth Executive','Executive','Outstanding healthcare B2B fit across integrated marketing, demand generation, ABM, content, CRM and enterprise GTM.','Healthcare marketing, B2B, integrated marketing, demand generation, ABM, CRM, content strategy, GTM, executive leadership','Scaled demand-generation ownership inside a large healthcare-tech company may be deeper in competing candidates.','personify','https://simplify.jobs/p/3d649970-b654-46b5-b977-f46abcba3847/Vice-President-Integrated-Marketing'],
 ['HOT',93,'Thorne','Senior Director, Integrated Marketing & Strategy','$180,000–$200,000','Remote U.S. • Full-time','Marketing / Growth Executive + Healthcare / Consumer','Director','Strong integrated-marketing fit spanning brand, omnichannel planning, full-funnel campaigns and measurable growth.','Integrated marketing, brand strategy, omnichannel, full funnel, campaign planning, GTM, analytics, consumer health','Direct supplements/wellness depth is limited; Norma/SpecChem and B2C/B2B integrated experience transfer well.','thorne','https://www.indeed.com/q-senior-director-marketing-remote-jobs.html'],
-['HOT',96,'Cardiovascular Associates of America','Senior Director of Marketing','Not listed','Remote U.S. • Full-time • ~40% travel','Healthcare Marketing / Growth','Director','Exceptionally strong healthcare fit: brand strategy, practice growth, patient acquisition, SEO/PPC, reputation, physician referrals and BD support.','Healthcare marketing, multi-site healthcare, physician marketing, practice growth, SEO, PPC, healthcare CRM, business development','Cardiovascular/MSO depth and heavier travel are drawbacks; provider-facing growth, digital and CRM background offset strongly.','cvausa','https://to.indeed.com/aarvxwcs4n6l'],
+['APPLY FIRST',96,'CVAUSA / Cardiovascular Associates of America','Senior Director of Marketing','Not listed','Remote U.S. • Full-time • ~40% travel','Healthcare Marketing / Growth','Director','Exceptionally strong healthcare fit: brand strategy, practice growth, patient acquisition, SEO/PPC, reputation, physician referrals and BD support.','Healthcare marketing, multi-site healthcare, physician marketing, practice growth, SEO, PPC, healthcare CRM, business development','Cardiovascular/MSO depth and heavier travel are drawbacks; provider-facing growth, digital and CRM background offset strongly.','cvausa','https://cardiovascularassociatesofamerica.applytojob.com/apply/J6JlZY2Ple/Senior-Director-Of-Marketing'],
 ['HOT',91,'Workiva','Vice President of PR & Corporate Communications','$266,000–$345,700','Remote U.S. • Full-time • Up to 25% travel','Content / Brand / Communications','Executive','Strong communications fit across global narrative, executive thought leadership, agency leadership and AI/product storytelling.','Corporate communications, PR, executive communications, thought leadership, narrative strategy, crisis communications, AI storytelling','Dedicated PR/media relations/public affairs depth is lighter; executive messaging and agency leadership provide transferability.','workiva-pr','https://to.indeed.com/aapv2p2k44kg'],
 ['APPLIED',97,'Genea Energy Partners','Vice President, Marketing','$200,000–$240,000','Remote U.S. • Full-time • ~25% travel','Marketing / Growth Executive + Manufacturing / Industrial / AEC','Executive','Exceptionally clean fit across brand, positioning, channel marketing, product marketing and GTM in building/property technology.','B2B marketing, channel marketing, partner marketing, brand strategy, product marketing, GTM, ABM, AI-enabled marketing, building technology','Direct proptech/building-automation software experience is not exact; building-products, channel, SaaS and AI experience offset unusually well.','genea','https://www.indeed.com/viewjob?jk=d8e089c2b86938c9'],
 ['HOT',97,'M3USA','Senior Vice President of Marketing','Not listed','Remote U.S. • Full-time','Healthcare Marketing / Growth + Marketing / Growth Executive','Executive','One of the strongest healthcare executive matches: global B2B healthcare marketing, enterprise clients, brand, demand, communications and sales enablement.','Healthcare marketing, global B2B, demand generation, ABM, enterprise clients, brand architecture, sales enablement, CRM, executive leadership','Healthcare market-research/life-sciences depth is preferred; broad healthcare leadership and research/intelligence are strong offsets.','m3usa','https://jobs.smartrecruiters.com/oneclick-ui/company/M3USA/publication/241ff494-7a23-4a4e-aa0d-8d963e79ce18?dcr_ci=M3USA'],
@@ -159,6 +159,9 @@ for (const id of Object.keys(APPLICATION_DATES)) {
   state[id].applied = true;
   state[id].appliedDate = '2026-09-15';
 }
+state.cvausa = state.cvausa || {};
+state.cvausa.resume = true;
+state.cvausa.cover = true;
 state.genea.answers = true;
 state.mpulse.answers = true;
 saveState(state);
@@ -223,6 +226,12 @@ document.querySelectorAll('.buildbtn').forEach(button => {
 const search = document.getElementById('search');
 const viewFilter = document.getElementById('viewFilter');
 const laneFilter = document.getElementById('laneFilter');
+const initialSearch = new URLSearchParams(window.location.search).get('q');
+if (initialSearch) {
+  search.value = initialSearch;
+  viewFilter.value = 'all';
+  laneFilter.value = 'all';
+}
 function applyFilters(){
   const query = search.value.trim().toLowerCase();
   let visible = 0;
