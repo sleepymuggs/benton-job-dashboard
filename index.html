@@ -1,10 +1,70 @@
 <!doctype html>
-<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Benton Job Search Dashboard</title>
-<style>:root{--bg:#f5f7fb;--ink:#182230;--muted:#667085;--line:#e4e7ec;--navy:#16324f;--green:#067647;--orange:#c2410c}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}.wrap{max-width:1680px;margin:auto;padding:28px}h1{margin:0 0 6px;color:var(--navy);font-size:34px}.sub{color:var(--muted);margin-bottom:20px}.alert{background:#fff4e5;border:1px solid #fed7aa;border-radius:14px;padding:14px 16px;margin-bottom:18px;color:#9a3412;font-weight:800}.cards{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:20px}.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:15px;box-shadow:0 8px 25px rgba(16,24,40,.05)}.num{font-weight:800;font-size:25px;color:var(--navy)}.lab{font-size:12px;color:var(--muted);margin-top:4px}.systems{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}.system-title{font-weight:800;color:var(--navy);margin-bottom:8px}.system-text{font-size:13px;color:#475467;line-height:1.5}.pill{display:inline-block;border-radius:999px;padding:5px 9px;background:#eef4ff;color:#1849a9;font-weight:700;font-size:11px;margin:2px 4px 2px 0}.scroll-top{overflow-x:scroll;overflow-y:hidden;margin:0 0 8px;border:1px solid var(--line);border-radius:10px;background:#fff;height:20px}.scroll-top-inner{height:1px;width:2450px}.table{overflow-x:scroll;overflow-y:visible;border:1px solid var(--line);border-radius:16px;background:#fff;scrollbar-gutter:stable both-edges}table{width:100%;border-collapse:collapse;min-width:2450px;background:#fff}th,td{padding:11px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;font-size:12px;line-height:1.4}th{background:#f8fafc;color:var(--muted);text-transform:uppercase;font-size:10px;letter-spacing:.04em;position:sticky;top:0;z-index:2}.score{background:#eef4ff;color:#1849a9;border-radius:8px;padding:5px 8px;font-weight:800;display:inline-block}.top{background:#fff7ed}.top td:first-child strong{color:var(--orange)}.high td:first-child strong{color:var(--green)}a{color:#1d4ed8;font-weight:700;text-decoration:none}.packet{white-space:nowrap}.packet label{display:block;margin:3px 0;font-size:11px}.packet input{vertical-align:middle;margin-right:5px}.buildbtn{border:0;border-radius:8px;padding:7px 9px;background:var(--navy);color:#fff;font-weight:700;font-size:11px;cursor:pointer;margin-top:6px}.copied{color:var(--green);font-size:10px;font-weight:700;margin-top:4px;min-height:12px}.note,.legend{font-size:12px;color:#475467}.note{margin-top:16px}.legend{margin:10px 0 14px}.legend b{color:var(--navy)}@media(max-width:1000px){.cards{grid-template-columns:repeat(2,1fr)}.systems{grid-template-columns:1fr}.wrap{padding:16px}}</style></head>
-<body><div class="wrap"><h1>Benton Job Search Dashboard</h1><div class="sub">Live search board + application packet workflow</div><div class="alert">✅ APPLIED TODAY: mPulse, DeVry University, Genea, and Provation / Fortive — September 15, 2026</div>
-<div class="cards"><div class="card"><div class="num" id="countJobs"></div><div class="lab">Jobs loaded</div></div><div class="card"><div class="num" id="countHigh"></div><div class="lab">High priority or better</div></div><div class="card"><div class="num" id="avgScore"></div><div class="lab">Approx. average match</div></div><div class="card"><div class="num" id="countHot"></div><div class="lab">HOT / Apply First</div></div><div class="card"><div class="num">5</div><div class="lab">Resume archetypes</div></div><div class="card"><div class="num">2</div><div class="lab">Locked master templates</div></div></div>
-<div class="systems"><div class="card"><div class="system-title">Locked application masters</div><div class="system-text">✓ Master Executive Resume locked for formatting<br>✓ Cover Letter master locked, including signature<br><br>Formatting stays fixed. We customize content only.</div></div><div class="card"><div class="system-title">Resume architecture</div><div class="system-text"><span class="pill">Marketing / Growth Executive</span><span class="pill">Content / Brand / Communications</span><span class="pill">Business / Client Development</span><span class="pill">Healthcare Marketing / Growth</span><span class="pill">Manufacturing / Industrial / AEC</span><br><br><b>Level mode:</b> Executive · Director · Scale-Back</div></div></div>
-<div class="legend"><b>Packet checkboxes are interactive.</b> They are saved in this browser. Use the always-visible top scrollbar or the table scrollbar to move horizontally.</div><div class="scroll-top" id="scrollTop"><div class="scroll-top-inner"></div></div><div class="table" id="tableWrap"><table><thead><tr><th>Priority</th><th>Match</th><th>Company</th><th>Role</th><th>Salary</th><th>Location / Setup</th><th>Archetype</th><th>Level Mode</th><th>Why You Match</th><th>ATS Keywords</th><th>Gaps / Risk</th><th>Application Packet</th><th>Apply</th></tr></thead><tbody id="rows"></tbody></table></div><div class="note">Updated September 15, 2026. mPulse, DeVry University, Genea, Provation / Fortive, and Medecision are marked applied. Packet checkbox state remains stored locally in your browser.</div></div>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Benton Boyd's live job search opportunity and application dashboard">
+  <title>Benton Job Search Dashboard</title>
+  <style>
+    :root{--bg:#f3f6fa;--card:#fff;--ink:#182230;--muted:#667085;--line:#e4e7ec;--navy:#16324f;--blue:#1849a9;--green:#067647;--orange:#c2410c;--purple:#6941c6}
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+    .wrap{max-width:1480px;margin:auto;padding:28px} header{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:18px}
+    h1{margin:0 0 5px;color:var(--navy);font-size:34px;letter-spacing:-.02em}.sub,.updated,.muted{color:var(--muted)}.updated{font-size:12px;text-align:right;padding-top:8px}
+    .activity{display:flex;gap:14px;align-items:flex-start;background:#ecfdf3;border:1px solid #abefc6;border-radius:14px;padding:14px 16px;margin-bottom:16px;color:#05603a}
+    .activity strong{white-space:nowrap}.activity span{line-height:1.45}.audit{background:#fffaeb;border:1px solid #fedf89;color:#93370d;border-radius:12px;padding:10px 14px;margin-bottom:18px;font-size:13px}
+    .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px;box-shadow:0 7px 22px rgba(16,24,40,.045)}
+    .num{font-weight:800;font-size:27px;color:var(--navy)}.lab{font-size:12px;color:var(--muted);margin-top:3px}.controls{display:grid;grid-template-columns:1.4fr .8fr .8fr;gap:10px;margin-bottom:12px}
+    input[type="search"],select{width:100%;border:1px solid #d0d5dd;border-radius:10px;background:#fff;color:var(--ink);padding:10px 12px;font:inherit}
+    .table{overflow:auto;border:1px solid var(--line);border-radius:16px;background:#fff}table{width:100%;border-collapse:collapse;min-width:1120px}th,td{padding:12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;font-size:12px;line-height:1.45}
+    th{background:#f8fafc;color:var(--muted);text-transform:uppercase;font-size:10px;letter-spacing:.05em;position:sticky;top:0;z-index:2}.company{font-size:14px;font-weight:800;color:var(--navy)}.role{margin-top:3px}.score{background:#eef4ff;color:var(--blue);border-radius:8px;padding:5px 8px;font-weight:800;display:inline-block}
+    .badge{display:inline-block;border-radius:999px;padding:5px 8px;font-weight:800;font-size:10px;white-space:nowrap}.apply-first{background:#fff4e5;color:#9a3412}.applied{background:#ecfdf3;color:#067647}.hot{background:#f4f3ff;color:#5925dc}.high-priority{background:#eef4ff;color:#1849a9}
+    tr[data-priority="APPLY FIRST"]{background:#fffcf5}tr[data-priority="APPLIED"]{background:#f8fffb}.salary{font-weight:700}.setup{color:var(--muted);margin-top:3px}.packet{white-space:nowrap}.packet label{display:block;margin:3px 0;font-size:11px}.packet input{vertical-align:middle;margin-right:5px}
+    details{max-width:320px}summary{cursor:pointer;color:var(--blue);font-weight:800}.detail-copy{padding:8px 0;color:#475467}.detail-copy b{color:var(--ink)}
+    .actions{white-space:nowrap}.btn{display:inline-block;border:0;border-radius:8px;padding:8px 10px;background:var(--navy);color:#fff;font-weight:800;font-size:11px;text-decoration:none;cursor:pointer}.btn.secondary{background:#eef4ff;color:var(--blue);margin-top:6px}.copied{color:var(--green);font-size:10px;font-weight:700;margin-top:4px;min-height:12px}
+    .empty{display:none;text-align:center;padding:28px;color:var(--muted)}.foot{font-size:12px;color:#475467;margin-top:14px;line-height:1.5}.foot b{color:var(--navy)}
+    @media(max-width:850px){.wrap{padding:16px}.cards{grid-template-columns:repeat(2,1fr)}.controls{grid-template-columns:1fr}.activity{display:block}.activity strong{display:block;margin-bottom:5px}header{display:block}.updated{text-align:left}.cards .card{padding:12px}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div><h1>Benton Job Search Dashboard</h1><div class="sub">Active opportunities, verified applications, and packet workflow</div></div>
+    <div class="updated"><b>Last reconciled:</b> September 17, 2026</div>
+  </header>
+  <div class="activity"><strong>Applied September 15</strong><span>mPulse · DeVry University · Genea Energy Partners · Provation / Fortive</span></div>
+  <div class="audit"><b>Data correction:</b> Medecision remains high priority. We have not confirmed that an application was submitted.</div>
+  <div class="cards">
+    <div class="card"><div class="num" id="countActive"></div><div class="lab">Active opportunities</div></div>
+    <div class="card"><div class="num" id="countNext"></div><div class="lab">Review / apply next</div></div>
+    <div class="card"><div class="num" id="countApplied"></div><div class="lab">Verified applications</div></div>
+    <div class="card"><div class="num" id="avgScore"></div><div class="lab">Average fit score</div></div>
+  </div>
+  <div class="controls">
+    <input id="search" type="search" placeholder="Search company, role, lane, or keyword…" aria-label="Search opportunities">
+    <select id="viewFilter" aria-label="Filter by pipeline status">
+      <option value="next">Review / apply next</option>
+      <option value="active">Active opportunities</option>
+      <option value="applied">Applied</option>
+      <option value="all">Everything</option>
+    </select>
+    <select id="laneFilter" aria-label="Filter by resume lane">
+      <option value="all">All resume lanes</option>
+      <option value="healthcare">Healthcare</option>
+      <option value="content">Content / brand / comms</option>
+      <option value="growth">Marketing / growth</option>
+      <option value="business">Business development</option>
+      <option value="industrial">Industrial / AEC</option>
+    </select>
+  </div>
+  <div class="table">
+    <table>
+      <thead><tr><th>Pipeline</th><th>Fit</th><th>Company / Role</th><th>Compensation / Setup</th><th>Fit Detail</th><th>Packet</th><th>Action</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <div class="empty" id="empty">No opportunities match those filters.</div>
+  </div>
+  <div class="foot"><b>How this board works:</b> Application dates are fixed calendar dates. “Applied” is used only when submission is confirmed. Packet checkboxes are saved in this browser. Fit scores are working estimates, not employer or ATS scores.</div>
+</div>
 <script>
 const J=[
 ['APPLIED',85,'DeVry University','Sr. Manager, Brand Marketing','$115,000–$125,000 + annual incentive','Remote / Hybrid • Full-time','Content / Brand / Communications + Marketing / Growth Executive','Scale-Back','Strong fit across brand strategy, integrated campaigns, content, creative direction, audience insights, thought leadership, agency management, AI-enabled marketing and performance optimization.','Brand strategy, integrated marketing, campaign development, brand stewardship, storytelling, creative direction, audience insights, brand health, reputation, paid media, email, social, web, thought leadership, agency management, AI-enabled marketing','Direct higher-education experience is limited, but healthcare and other trust-based, complex-market experience transfer well. Compensation is below the broader executive target but within the accepted range.','devry-brand','https://www.linkedin.com/jobs/view/senior-manager-brand-marketing-at-devry-university-4436497618'],
@@ -39,12 +99,13 @@ const J=[
 ['APPLIED',92,'mPulse','Director of Lifecycle Marketing','$150,000–$175,000','Remote • Full-time','Healthcare Marketing / Growth','Director','Strong healthcare-tech growth fit across full-funnel demand generation, CRM, onboarding, activation, retention and lifecycle strategy.','Healthcare technology, lifecycle marketing, demand generation, CRM, retention, activation, growth marketing, analytics','Background is broader integrated marketing rather than dedicated lifecycle tenure, but CRM and healthcare growth provide strong transferability.','mpulse','https://www.indeed.com/viewjob?jk=be1cffbe902fb23c'],
 ['HOT',91,'GitHub','Sr. Director, Brand Strategy','$141,700–$375,800','Remote U.S. • Full-time','Marketing / Growth Executive + Content / Brand / Communications','Director','Strong fit across brand narrative, strategic positioning, executive collaboration, AI-enabled technology and integrated marketing.','Brand strategy, narrative, positioning, developer platform, AI, integrated marketing, product marketing, global brand','Developer-audience experience and global brand scale are the biggest recruiter risks; SaaS/AI/brand leadership make it a worthwhile reach.','github-brand','https://to.indeed.com/aascvwjp72xk'],
 ['HOT',95,'Equip Health','Senior Director, Product Marketing','$170,000–$215,000','Remote U.S. • Full-time • No travel','Healthcare Marketing / Growth + Content / Brand','Director','Exceptional healthcare fit across positioning, messaging, provider and consumer audiences, competitive analysis, content and launches.','Healthcare, product marketing, GTM, positioning, messaging, provider marketing, consumer marketing, competitive analysis, launches','Formal product-marketing title history and eating-disorder category depth are gaps; healthcare strategy and market intelligence offset strongly.','equip','https://www.indeed.com/viewjob?jk=057740ff133de4cb'],
-['HOT',94,'Zimmer Biomet','Senior Director, Marketing - Connected Health and Robotics','$213,000–$265,000','Remote • Full-time • Up to 25% travel','Healthcare Marketing / Growth','Director','Very strong healthcare-tech fit spanning portfolio strategy, positioning, competitive intelligence, digital health and commercial growth.','Connected health, digital health, portfolio strategy, brand architecture, product positioning, competitive analysis, GTM','Direct medical-device/robotics product management may be deeper in competing candidates; complex healthcare-tech strategy is a strong offset.','zimmer-connected','https://to.indeed.com/aa64cwd9dp2z'],
+['APPLY FIRST',94,'Zimmer Biomet','Senior Director, Marketing - Connected Health and Robotics','$213,000–$265,000','Remote • Full-time • Up to 25% travel','Healthcare Marketing / Growth','Director','Very strong healthcare-tech fit spanning portfolio strategy, positioning, competitive intelligence, digital health and commercial growth.','Connected health, digital health, portfolio strategy, brand architecture, product positioning, competitive analysis, GTM','Direct medical-device/robotics product management may be deeper in competing candidates; complex healthcare-tech strategy is a strong offset.','zimmer-connected','https://to.indeed.com/aa64cwd9dp2z'],
 ['HOT',89,'ProShop ERP','Senior Director of Product Marketing','$150,000–$180,000','Remote U.S. • Full-time','Manufacturing / Industrial / AEC + Marketing / Growth','Director','Rare manufacturing-plus-SaaS role with industrial-buyer, positioning, competitive strategy and sales-enablement overlap.','Manufacturing, B2B SaaS, product marketing, GTM, positioning, competitive intelligence, AI, pricing, packaging','Dedicated B2B SaaS PMM and pricing/packaging tenure are gaps; manufacturing domain depth makes it a strategic exception.','proshop','https://to.indeed.com/aambj7sdy4q2'],
 ['HOT',95,'Miter','Head of Partnerships','$230,000–$260,000','Remote • Full-time','Manufacturing / Industrial / AEC + Business Development','Executive','Rare construction-tech, partnerships, SaaS and AI intersection.','Construction technology, partnerships, partner ecosystem, business development, co-sell, SaaS, AI, revenue growth, channel strategy','Scaled SaaS partner-program ownership may be deeper in competing candidates; construction and client-development history offset strongly.','miter','https://to.indeed.com/aanrljwm4lph'],
 ['HOT',95,'Otis','Sr Director, Regional Marketing Americas','$200,000–$240,000','Remote • Full-time','Manufacturing / Industrial / AEC','Executive','Exceptional fit across industrial/building markets, North American marketing leadership, channel strategy and sales alignment.','Regional marketing, Americas, B2B, commercial excellence, demand generation, ABM, digital transformation, sales alignment','Large global-enterprise regional marketing scale may be deeper in competing candidates; Norma/SpecChem and construction-sector history transfer strongly.','otis','https://to.indeed.com/aaqqdchx7mgf'],
 ['HOT',94,'Humana','Director, Strategy Advancement - External Partnerships','$168,000–$231,000','Remote • Full-time','Healthcare + Business / Client Development','Director','Strong match across healthcare strategy, executive relationships, partnerships, market analysis and enterprise growth.','Healthcare strategy, strategic partnerships, business development, executive relationships, market analysis, growth strategy','Direct payer/Medicare/Medicaid and formal partnership-portfolio depth may be preferred; health-system BD is a strong offset.','humana','https://to.indeed.com/aawdxtns4s4m'],
-['HOT',90,'Dropbox','Director of Marketing Strategy','$187,700–$285,700','Remote U.S. • Full-time • Select locations','Marketing / Growth Executive','Director','Strong strategic-marketing and SaaS fit centered on CMO planning, growth initiatives, GTM and executive storytelling.','Marketing strategy, CMO advisor, GTM, strategic planning, B2B, B2C, market sizing, budget governance, OKRs','Quant modeling and consulting-style capital allocation are meaningful gaps; strategy/SaaS/planning experience keeps it competitive.','dropbox','https://to.indeed.com/aal88xdnbxsb'],
+['APPLY FIRST',95,'Vitally','Director of Editorial & Content Marketing','$200,000–$240,000','Remote U.S. • Full-time','Content / Brand / Communications + Marketing / Growth Executive','Director','Excellent fit across editorial strategy, executive thought leadership, original research, B2B technology storytelling and building a sustained content engine that creates awareness, authority and demand.','Editorial strategy, content marketing, thought leadership, original research, executive communications, brand publishing, B2B SaaS, organic growth, AI, customer success','Direct Customer Success software category experience is limited, but healthcare-tech strategy, executive content, research, digital leadership and B2B storytelling transfer cleanly.','vitally','https://vitallyio.applytojob.com/'],
+['APPLY FIRST',90,'Dropbox','Director of Marketing Strategy','$187,700–$285,700','Remote U.S. • Full-time • Select locations','Marketing / Growth Executive','Director','Strong strategic-marketing and SaaS fit centered on CMO planning, growth initiatives, GTM and executive storytelling.','Marketing strategy, CMO advisor, GTM, strategic planning, B2B, B2C, market sizing, budget governance, OKRs','Quant modeling and consulting-style capital allocation are meaningful gaps; strategy/SaaS/planning experience keeps it competitive.','dropbox','https://to.indeed.com/aal88xdnbxsb'],
 ['HOT',96,'Novanta','Global Marketing Director','$166,500–$248,000','Remote • Full-time','Healthcare + Manufacturing / Industrial','Director','Rare dual-lane fit: healthcare and advanced manufacturing plus global B2B marketing leadership.','Global marketing, healthcare, advanced manufacturing, B2B, GTM, product positioning, growth, cross-functional leadership','Direct med-tech/precision-automation product marketing may be deeper in competing candidates; healthcare plus manufacturing leadership is the strategic edge.','novanta','https://to.indeed.com/aatjh9vt9nrn'],
 ['HOT',95,'Phreesia','Director, Client & Partner Marketing','$200,000–$300,000','Remote U.S. • Full-time • Occasional travel','Healthcare + Business / Client Development','Director','Excellent overlap with healthcare, client development, partner strategy, B2B marketing and enterprise relationship-building.','Healthcare marketing, client marketing, partner marketing, provider marketing, B2B, partnerships, GTM','Specific healthcare network/media-platform experience may be preferred; current enterprise healthcare client development directly offsets that risk.','phreesia','https://to.indeed.com/aa4z88ttm4xl'],
 ['HOT',94,'Dandelion Health','Senior Director of Business Development','$250,000–$350,000','Remote • Full-time','Healthcare + Business Development','Director','Healthcare technology, hospital-system relationships, AI and enterprise growth converge unusually well.','Healthcare business development, health tech, clinical AI, hospital systems, partnerships, enterprise sales, growth strategy','Clinical-data/life-sciences platform deal experience may be deeper in competing candidates; hospital-system growth and AI market intelligence are meaningful offsets.','dandelion','https://to.indeed.com/aaqr9fxyfrwz'],
@@ -54,17 +115,133 @@ const J=[
 ['HOT',92,'Flex','Sr Director, Business Development - Industrial','$188,600–$259,300','Remote • Full-time','Manufacturing / Industrial / AEC','Director','Excellent overlap with manufacturing, industrial markets, strategic growth, business development and executive client strategy.','Industrial business development, manufacturing, strategic accounts, revenue growth, partnerships, executive leadership','Direct electronics-manufacturing-services sales depth may be preferred; manufacturing and commercial leadership offset part of the gap.','flex','https://to.indeed.com/aa82kxqlkpkz'],
 ['HOT',91,'Commerce Bank','Director, Commercial B2B Marketing Strategy','$158,000–$187,500','Kansas City, MO • Full-time • Local','Marketing / Growth Executive','Director','Rare KC fit combining B2B strategy, integrated marketing, commercial growth and compensation in range.','B2B marketing strategy, commercial marketing, integrated marketing, growth, sales alignment, customer strategy','Financial-services experience is not direct; B2B strategy overlap is unusually strong.','commerce','https://to.indeed.com/aarx84sh96n9'],
 ['HOT',90,'The Cigna Group','Director, CEO Communications Operations','$152,300–$253,800','Remote • Full-time','Healthcare + Content / Comms','Director','Strong healthcare and executive-communications fit with strategic messaging and leadership support.','Executive communications, CEO communications, healthcare, strategic messaging, executive presentations, stakeholder management','Dedicated CEO-office communications tenure may be deeper in competing candidates; executive-facing healthcare strategy is a strong offset.','cigna','https://to.indeed.com/aa8dblw7dd22'],
-['APPLIED',89,'Medecision','Strategic Content & Communications Manager','$120,000–$140,000','Remote • Full-time','Healthcare + Content / Comms','Scale-Back','Excellent overlap with healthcare, strategic content, executive communications and thought leadership.','Healthcare, content strategy, communications, thought leadership, executive messaging, integrated marketing','Manager title is below normal target; scope and remote setup justified pursuit.','medecision','https://www.linkedin.com/jobs/view/4456285623/'],
+['HIGH PRIORITY',89,'Medecision','Strategic Content & Communications Manager','$120,000–$140,000','Remote • Full-time','Healthcare + Content / Comms','Scale-Back','Excellent overlap with healthcare, strategic content, executive communications and thought leadership.','Healthcare, content strategy, communications, thought leadership, executive messaging, integrated marketing','Manager title is below normal target; scope and remote setup justified pursuit. Submission status still needs confirmation.','medecision','https://www.linkedin.com/jobs/view/4456285623/'],
 ['APPLY FIRST',94,'Husqvarna','Vice President, Marketing & Product Management','$133,243–$214,170','Olathe, KS • Full-time • Local','Manufacturing / Industrial / AEC','Executive','Exceptional overlap with manufacturing, building products, channel marketing and executive strategy.','Marketing strategy, product management, channel marketing, marketing communications, growth, leadership','Potential depth of formal product-management ownership.','husqvarna','https://to.indeed.com/aam99bm6rth9'],
 ['APPLY FIRST',93,'PRIER Products, Inc.','Vice President of Sales, Marketing & Customer Experience','Not listed','Grandview, MO • Full-time • KC Metro','Manufacturing / Industrial / AEC','Executive','Outstanding manufacturing/building-products alignment plus sales, marketing and customer experience leadership.','Sales leadership, marketing strategy, customer experience, manufacturing, construction, channel, revenue growth','May expect heavier direct sales organization ownership; business-development experience offsets this.','prier','https://click.appcast.io/t/tqC9_ibayqjK3YnbvZqA6fyztv-LSJSFi-8TAii7CucsG76iJRWm31I_4GdEbVnkTQeBHUk2Xz5Fyjsd-q-NsQ==?sar_id=29wak2v5&jpos=4'],
 ['APPLY FIRST',91,'Sphero','Senior Director of Global Marketing','$155,000–$175,000','Remote • Full-time','Marketing / Growth Executive','Director','Strong senior marketing leadership fit spanning brand, content, integrated strategy and growth.','Global marketing, brand strategy, integrated marketing, content, leadership, growth, demand','Education/robotics category experience is not obvious.','sphero','https://to.indeed.com/aa6cdjpl4htz'],
 ['HIGH PRIORITY',85,'Zimmer Biomet','Senior Manager, Medical Education Brand Strategy & Communications','Not confirmed','Work setup not confirmed','Healthcare + Content / Comms','Scale-Back','Strong healthcare, brand strategy, communications and education-content alignment.','Healthcare, brand strategy, medical education, communications, content strategy, stakeholder engagement','Medical-device and formal medical-education depth may be stronger in competing candidates.','zimmer','https://www.linkedin.com/jobs/view/4457480958/'],
 ['HIGH PRIORITY',84,'Headway','Senior Manager, Provider Community & Content Marketing','Not confirmed','Work setup not confirmed','Healthcare + Content / Comms','Scale-Back','Strong fit across healthcare, content strategy, community engagement and provider audiences.','Healthcare, provider marketing, community, content marketing, engagement, brand, integrated campaigns','Could favor candidates with more direct provider-community program ownership.','headway','https://www.linkedin.com/jobs/view/4458861113/']];
-const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const packet=j=>`<td class="packet" data-job="${esc(j[11])}"><label><input type="checkbox" data-step="resume">Resume</label><label><input type="checkbox" data-step="cover">Cover</label><label><input type="checkbox" data-step="answers">Short answers</label><label><input type="checkbox" data-step="applied">Applied</label><label><input type="checkbox" data-step="followup">Follow-up</label><label><input type="checkbox" data-step="interview">Interview</label><button class="buildbtn" data-command="Build packet: ${esc(j[2])} — ${esc(j[3])}">Build Packet</button><div class="copied"></div></td>`;
-const rank=p=>p==='HOT'?0:p==='APPLY FIRST'?1:p==='APPLIED'?2:p==='HIGH PRIORITY'?3:4;J.sort((a,b)=>rank(a[0])-rank(b[0]));
-const cls=p=>(p==='HOT'||p==='APPLY FIRST')?'top':p==='HIGH PRIORITY'?'high':'';
-document.getElementById('rows').innerHTML=J.map(j=>`<tr class="${cls(j[0])}"><td><strong>${esc(j[0])}</strong></td><td><span class="score">${j[1]}%</span></td><td><strong>${esc(j[2])}</strong></td><td>${esc(j[3])}</td><td>${esc(j[4])}</td><td>${esc(j[5])}</td><td>${esc(j[6])}</td><td>${esc(j[7])}</td><td>${esc(j[8])}</td><td>${esc(j[9])}</td><td>${esc(j[10])}</td>${packet(j)}<td><a href="${esc(j[12])}" target="_blank" rel="noopener">Open job</a></td></tr>`).join('');
-document.getElementById('countJobs').textContent=J.length;document.getElementById('countHigh').textContent=J.filter(j=>j[0]!=='APPLY').length;document.getElementById('avgScore').textContent=Math.round(J.reduce((a,j)=>a+j[1],0)/J.length)+'%';document.getElementById('countHot').textContent=J.filter(j=>j[0]==='HOT'||j[0]==='APPLY FIRST').length;
-const KEY='benton-job-packet-v1';function loadState(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return {}}}function saveState(s){localStorage.setItem(KEY,JSON.stringify(s))}const state=loadState();state.medecision=state.medecision||{};if(state.medecision.applied===undefined)state.medecision.applied=true;state.genea=state.genea||{};if(state.genea.resume===undefined)state.genea.resume=true;if(state.genea.cover===undefined)state.genea.cover=true;if(state.genea.answers===undefined)state.genea.answers=true;if(state.genea.applied===undefined)state.genea.applied=true;state.genea.appliedDate=state.genea.appliedDate||'2026-09-15';state['provation-fortive']=state['provation-fortive']||{};if(state['provation-fortive'].resume===undefined)state['provation-fortive'].resume=true;if(state['provation-fortive'].cover===undefined)state['provation-fortive'].cover=true;if(state['provation-fortive'].applied===undefined)state['provation-fortive'].applied=true;state['provation-fortive'].appliedDate=state['provation-fortive'].appliedDate||'2026-09-15';state['devry-brand']=state['devry-brand']||{};if(state['devry-brand'].resume===undefined)state['devry-brand'].resume=true;if(state['devry-brand'].cover===undefined)state['devry-brand'].cover=true;if(state['devry-brand'].applied===undefined)state['devry-brand'].applied=true;state['devry-brand'].appliedDate=state['devry-brand'].appliedDate||'2026-09-15';state.mpulse=state.mpulse||{};if(state.mpulse.resume===undefined)state.mpulse.resume=true;if(state.mpulse.cover===undefined)state.mpulse.cover=true;if(state.mpulse.answers===undefined)state.mpulse.answers=true;if(state.mpulse.applied===undefined)state.mpulse.applied=true;state.mpulse.appliedDate=state.mpulse.appliedDate||'2026-09-15';saveState(state);document.querySelectorAll('.packet').forEach(cell=>{const job=cell.dataset.job;cell.querySelectorAll('input[type=checkbox]').forEach(cb=>{const step=cb.dataset.step;cb.checked=!!(state[job]&&state[job][step]);cb.addEventListener('change',()=>{state[job]=state[job]||{};state[job][step]=cb.checked;saveState(state)})});const btn=cell.querySelector('.buildbtn'),msg=cell.querySelector('.copied');btn.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(btn.dataset.command);msg.textContent='Copied! Paste into ChatGPT.'}catch(e){msg.textContent=btn.dataset.command}setTimeout(()=>msg.textContent='',3500)})});const topBar=document.getElementById('scrollTop'),tableWrap=document.getElementById('tableWrap');let syncing=false;topBar.addEventListener('scroll',()=>{if(syncing)return;syncing=true;tableWrap.scrollLeft=topBar.scrollLeft;syncing=false});tableWrap.addEventListener('scroll',()=>{if(syncing)return;syncing=true;topBar.scrollLeft=tableWrap.scrollLeft;syncing=false});
-</script></body></html>
+const esc = value => String(value).replace(/[&<>"']/g, character => ({
+  '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+}[character]));
+
+const APPLICATION_DATES = {
+  'devry-brand':'September 15, 2026',
+  'provation-fortive':'September 15, 2026',
+  'genea':'September 15, 2026',
+  'mpulse':'September 15, 2026'
+};
+
+const priorityRank = {'APPLY FIRST':0,'HOT':1,'HIGH PRIORITY':2,'APPLIED':3};
+J.sort((a,b) => (priorityRank[a[0]] ?? 9) - (priorityRank[b[0]] ?? 9) || b[1] - a[1]);
+
+const OLD_KEY = 'benton-job-packet-v1';
+const KEY = 'benton-job-packet-v2';
+function loadState(){
+  try { return JSON.parse(localStorage.getItem(KEY) || localStorage.getItem(OLD_KEY) || '{}'); }
+  catch(error) { return {}; }
+}
+function saveState(value){ localStorage.setItem(KEY, JSON.stringify(value)); }
+const state = loadState();
+
+// Only confirmed submissions are seeded as applied. The earlier board automatically
+// checked Medecision without a submission confirmation, so this migration corrects it.
+state.medecision = state.medecision || {};
+state.medecision.applied = false;
+delete state.medecision.appliedDate;
+for (const id of Object.keys(APPLICATION_DATES)) {
+  state[id] = state[id] || {};
+  state[id].resume = true;
+  state[id].cover = true;
+  state[id].applied = true;
+  state[id].appliedDate = '2026-09-15';
+}
+state.genea.answers = true;
+state.mpulse.answers = true;
+saveState(state);
+
+const badgeClass = priority => priority.toLowerCase().replaceAll(' ','-');
+const priorityLabel = priority => priority === 'HOT' ? 'Strong match' : priority === 'APPLY FIRST' ? 'Apply next' : priority === 'HIGH PRIORITY' ? 'Priority' : 'Applied';
+const packet = job => {
+  const id = esc(job[11]);
+  return `<td class="packet" data-job="${id}">
+    <label><input type="checkbox" data-step="resume">Resume</label>
+    <label><input type="checkbox" data-step="cover">Cover letter</label>
+    <label><input type="checkbox" data-step="answers">Short answers</label>
+    <label><input type="checkbox" data-step="applied">Applied</label>
+    <label><input type="checkbox" data-step="followup">Follow-up</label>
+    <label><input type="checkbox" data-step="interview">Interview</label>
+  </td>`;
+};
+
+function row(job){
+  const appliedDate = APPLICATION_DATES[job[11]];
+  const dateLine = appliedDate ? `<div class="setup">${esc(appliedDate)}</div>` : '';
+  return `<tr data-priority="${esc(job[0])}" data-lane="${esc(job[6].toLowerCase())}" data-search="${esc(job.slice(2,11).join(' ').toLowerCase())}">
+    <td><span class="badge ${badgeClass(job[0])}">${priorityLabel(job[0])}</span>${dateLine}</td>
+    <td><span class="score">${job[1]}%</span></td>
+    <td><div class="company">${esc(job[2])}</div><div class="role">${esc(job[3])}</div><div class="setup">${esc(job[7])} level</div></td>
+    <td><div class="salary">${esc(job[4])}</div><div class="setup">${esc(job[5])}</div></td>
+    <td><details><summary>Why it fits</summary><div class="detail-copy"><b>Match:</b> ${esc(job[8])}<br><br><b>Keywords:</b> ${esc(job[9])}<br><br><b>Risk:</b> ${esc(job[10])}</div></details></td>
+    ${packet(job)}
+    <td class="actions"><a class="btn" href="${esc(job[12])}" target="_blank" rel="noopener">Open job</a><br><button class="btn secondary buildbtn" data-command="Build packet: ${esc(job[2])} — ${esc(job[3])}">Build packet</button><div class="copied"></div></td>
+  </tr>`;
+}
+
+const rows = document.getElementById('rows');
+rows.innerHTML = J.map(row).join('');
+document.getElementById('countActive').textContent = J.filter(job => job[0] !== 'APPLIED').length;
+document.getElementById('countNext').textContent = J.filter(job => job[0] === 'APPLY FIRST').length;
+document.getElementById('countApplied').textContent = J.filter(job => job[0] === 'APPLIED').length;
+document.getElementById('avgScore').textContent = Math.round(J.reduce((sum,job) => sum + job[1],0) / J.length) + '%';
+
+document.querySelectorAll('.packet').forEach(cell => {
+  const id = cell.dataset.job;
+  cell.querySelectorAll('input[type=checkbox]').forEach(checkbox => {
+    const step = checkbox.dataset.step;
+    checkbox.checked = !!(state[id] && state[id][step]);
+    checkbox.addEventListener('change', () => {
+      state[id] = state[id] || {};
+      state[id][step] = checkbox.checked;
+      saveState(state);
+    });
+  });
+});
+
+document.querySelectorAll('.buildbtn').forEach(button => {
+  button.addEventListener('click', async () => {
+    const message = button.parentElement.querySelector('.copied');
+    try { await navigator.clipboard.writeText(button.dataset.command); message.textContent = 'Copied'; }
+    catch(error) { message.textContent = button.dataset.command; }
+    setTimeout(() => message.textContent = '', 3000);
+  });
+});
+
+const search = document.getElementById('search');
+const viewFilter = document.getElementById('viewFilter');
+const laneFilter = document.getElementById('laneFilter');
+function applyFilters(){
+  const query = search.value.trim().toLowerCase();
+  let visible = 0;
+  document.querySelectorAll('#rows tr').forEach(tableRow => {
+    const priority = tableRow.dataset.priority;
+    const view = viewFilter.value;
+    const viewMatch = view === 'all' ||
+      (view === 'active' && priority !== 'APPLIED') ||
+      (view === 'next' && priority === 'APPLY FIRST') ||
+      (view === 'applied' && priority === 'APPLIED');
+    const laneMatch = laneFilter.value === 'all' || tableRow.dataset.lane.includes(laneFilter.value);
+    const searchMatch = !query || tableRow.dataset.search.includes(query);
+    const show = viewMatch && laneMatch && searchMatch;
+    tableRow.hidden = !show;
+    if (show) visible++;
+  });
+  document.getElementById('empty').style.display = visible ? 'none' : 'block';
+}
+search.addEventListener('input', applyFilters);
+viewFilter.addEventListener('change', applyFilters);
+laneFilter.addEventListener('change', applyFilters);
+applyFilters();
+</script>
+</body>
+</html>
